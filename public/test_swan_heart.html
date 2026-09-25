@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Refined Swan White Body Test</title>
+  <style>
+    body { background: #FAF8F5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .lake-preview { width: 700px; height: 260px; background: #B8A88F; border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div class="lake-preview">
+    <svg width="280" height="150" viewBox="0 0 280 150">
+      <!-- Water Shadows under swans -->
+      <ellipse cx="75" cy="128" rx="50" ry="6" fill="#6E6252" opacity="0.25"/>
+      <ellipse cx="205" cy="128" rx="50" ry="6" fill="#6E6252" opacity="0.25"/>
+
+      <!-- Water Ripples -->
+      <ellipse cx="140" cy="128" rx="100" ry="8" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.4"/>
+      <ellipse cx="140" cy="128" rx="60" ry="5.5" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.55"/>
+
+      <!-- ════════ LEFT SWAN ════════ -->
+      <g id="leftSwan">
+        <!-- Body: Pure Luminous White with soft lower feather shading -->
+        <path d="M25 120 C20 108, 30 90, 55 86 C80 82, 105 92, 120 106 C124 112, 122 122, 114 126 C98 132, 45 132, 25 120 Z" fill="#FFFFFF" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.08))"/>
+        <!-- Wing Feathers -->
+        <path d="M48 98 C65 92, 88 96, 102 108" stroke="#D8CEBF" stroke-width="1.4" fill="none" opacity="0.7"/>
+        <path d="M58 108 C75 104, 94 110, 106 118" stroke="#D8CEBF" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <path d="M26 120 C12 116, 4 104, 10 98 C16 104, 24 110, 32 114 Z" fill="#FFFFFF"/>
+
+        <!-- Neck (Left Half of Heart) -->
+        <path d="M116 112 C108 95, 90 75, 88 56 C86 36, 102 20, 122 24 C132 26, 138 34, 138 46 C134 46, 130 40, 124 35 C116 30, 104 38, 104 54 C104 70, 118 90, 122 105 Z" fill="#FFFFFF"/>
+
+        <!-- Head Details -->
+        <path d="M130 33 C134 30, 137 32, 137 36 C137 38, 133 39, 130 37 Z" fill="#1C1814"/>
+        <circle cx="131" cy="34" r="1.1" fill="#FFFFFF"/>
+        <!-- Orange Beak -->
+        <path d="M134 36 L139.5 48 L131 43 Z" fill="#E87625"/>
+      </g>
+
+      <!-- ════════ RIGHT SWAN ════════ -->
+      <g id="rightSwan">
+        <!-- Body: Pure Luminous White -->
+        <path d="M255 120 C260 108, 250 90, 225 86 C200 82, 175 92, 160 106 C156 112, 158 122, 166 126 C182 132, 235 132, 255 120 Z" fill="#FFFFFF" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.08))"/>
+        <!-- Wing Feathers -->
+        <path d="M232 98 C215 92, 192 96, 178 108" stroke="#D8CEBF" stroke-width="1.4" fill="none" opacity="0.7"/>
+        <path d="M222 108 C205 104, 186 110, 174 118" stroke="#D8CEBF" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <path d="M254 120 C268 116, 276 104, 270 98 C264 104, 256 110, 248 114 Z" fill="#FFFFFF"/>
+
+        <!-- Neck (Right Half of Heart) -->
+        <path d="M164 112 C172 95, 190 75, 192 56 C194 36, 178 20, 158 24 C148 26, 142 34, 142 46 C146 46, 150 40, 156 35 C164 30, 176 38, 176 54 C176 70, 162 90, 158 105 Z" fill="#FFFFFF"/>
+
+        <!-- Head Details -->
+        <path d="M150 33 C146 30, 143 32, 143 36 C143 38, 147 39, 150 37 Z" fill="#1C1814"/>
+        <circle cx="149" cy="34" r="1.1" fill="#FFFFFF"/>
+        <!-- Orange Beak -->
+        <path d="M146 36 L140.5 48 L149 43 Z" fill="#E87625"/>
+      </g>
+    </svg>
+  </div>
+</body>
+</html>

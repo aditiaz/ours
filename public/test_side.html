@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Side View Butterfly Preview 3</title>
+  <style>
+    body {
+      background: #FAF8F5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+      gap: 40px;
+    }
+    .preview-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      min-width: 280px;
+    }
+    .perch-line {
+      width: 240px;
+      height: 4px;
+      background: #A68254;
+      border-radius: 2px;
+      position: relative;
+      margin-top: -16px;
+    }
+
+    /* Side-View Butterfly 3D Rig */
+    .butterfly-side-root {
+      display: inline-block;
+      position: relative;
+      width: 100px;
+      height: 100px;
+      perspective: 700px;
+      transform-style: preserve-3d;
+    }
+
+    .bf-side-rig {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    /* Far wing (behind body) */
+    .wing-side-far {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transform-origin: 44% 61%;
+      filter: brightness(0.8) contrast(1.05);
+      z-index: 1;
+      transform-style: preserve-3d;
+    }
+
+    /* Body (side profile) */
+    .body-side {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      transform-style: preserve-3d;
+    }
+
+    /* Near wing (in front of body) */
+    .wing-side-near {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transform-origin: 44% 61%;
+      z-index: 3;
+      transform-style: preserve-3d;
+    }
+
+    /* In-Flight Side Flapping */
+    .flight-mode .bf-side-rig {
+      animation: sideFlightBob 0.22s ease-in-out infinite alternate;
+    }
+    .flight-mode .wing-side-near {
+      animation: sideFlapNear 0.22s ease-in-out infinite alternate;
+    }
+    .flight-mode .wing-side-far {
+      animation: sideFlapFar 0.22s ease-in-out infinite alternate;
+    }
+
+    @keyframes sideFlightBob {
+      0%   { transform: translateY(0px) rotate(-14deg); }
+      100% { transform: translateY(-6px) rotate(-6deg); }
+    }
+
+    @keyframes sideFlapNear {
+      0%   { transform: rotateY(0deg) rotateZ(0deg); }
+      100% { transform: rotateY(-58deg) rotateZ(14deg); }
+    }
+
+    @keyframes sideFlapFar {
+      0%   { transform: rotateY(0deg) rotateZ(0deg); }
+      100% { transform: rotateY(58deg) rotateZ(-14deg); }
+    }
+
+    /* Resting / Landed Basking */
+    .rest-mode .bf-side-rig {
+      animation: sideRestBreathe 3.4s ease-in-out infinite alternate;
+    }
+    .rest-mode .wing-side-near {
+      animation: sideBaskNear 3.4s ease-in-out infinite alternate;
+    }
+    .rest-mode .wing-side-far {
+      animation: sideBaskFar 3.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes sideRestBreathe {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-1px); }
+    }
+
+    @keyframes sideBaskNear {
+      0%   { transform: rotateY(-3deg) rotateZ(0deg); }
+      50%  { transform: rotateY(-28deg) rotateZ(5deg); }
+      100% { transform: rotateY(-5deg) rotateZ(1deg); }
+    }
+
+    @keyframes sideBaskFar {
+      0%   { transform: rotateY(3deg) rotateZ(0deg); }
+      50%  { transform: rotateY(28deg) rotateZ(-5deg); }
+      100% { transform: rotateY(5deg) rotateZ(-1deg); }
+    }
+  </style>
+</head>
+<body>
+  <h2>Anatomical Side-View Butterfly Preview 3</h2>
+  <div style="display: flex; gap: 40px;">
+    <div class="preview-card">
+      <h3>In Flight (Side View)</h3>
+      <div id="side-flight"></div>
+    </div>
+    <div class="preview-card">
+      <h3>Perched on Frame Edge (Resting)</h3>
+      <div id="side-rest"></div>
+      <div class="perch-line"></div>
+    </div>
+  </div>
+
+  <script>
+    function getSideWingSVG(p, id) {
+      return `
+        <svg viewBox="0 0 100 100" width="100%" height="100%" fill="none" style="display:block; overflow:visible;">
+          <defs>
+            <linearGradient id="${id}-foreGrad" x1="44%" y1="61%" x2="42%" y2="8%">
+              <stop offset="0%" stop-color="${p.gradStart}" />
+              <stop offset="60%" stop-color="${p.gradMid}" />
+              <stop offset="100%" stop-color="${p.gradEnd}" />
+            </linearGradient>
+            <linearGradient id="${id}-hindGrad" x1="42%" y1="63%" x2="20%" y2="82%">
+              <stop offset="0%" stop-color="${p.gradStart}" />
+              <stop offset="65%" stop-color="${p.gradMid}" />
+              <stop offset="100%" stop-color="${p.gradEnd}" />
+            </linearGradient>
+          </defs>
+
+          <!-- FOREWING IN PROFILE (sweeps tall upwards and curves back) -->
+          <path d="M 44 61
+                   C 46 44, 52 24, 46 8
+                   C 42 -1, 30 1, 22 10
+                   C 12 22, 14 42, 22 54
+                   C 28 62, 38 64, 44 61 Z"
+                fill="url(#${id}-foreGrad)" />
+
+          <!-- Forewing dark velvety border with authentic monarch scallops -->
+          <path d="M 46 8
+                   C 42 -1, 30 1, 22 10
+                   C 12 22, 14 42, 22 54
+                   C 18 44, 16 32, 24 20
+                   C 30 10, 38 8, 46 8 Z"
+                fill="${p.border}" opacity="0.9" />
+
+          <!-- Forewing discal cell & branching veins -->
+          <path d="M 43 59 C 40 44, 36 28, 28 14" stroke="${p.vein}" stroke-width="1.3" opacity="0.65" fill="none" />
+          <path d="M 36 44 C 26 34, 18 24, 14 18" stroke="${p.vein}" stroke-width="1" opacity="0.6" fill="none" />
+          <path d="M 32 49 C 24 42, 16 34, 12 26" stroke="${p.vein}" stroke-width="0.9" opacity="0.55" fill="none" />
+          <path d="M 32 54 C 24 50, 16 44, 12 36" stroke="${p.vein}" stroke-width="0.9" opacity="0.55" fill="none" />
+
+          <!-- Forewing submarginal cream dots -->
+          <circle cx="21" cy="14" r="1.8" fill="${p.spots}" />
+          <circle cx="16" cy="23" r="1.7" fill="${p.spots}" />
+          <circle cx="14" cy="33" r="1.7" fill="${p.spots}" />
+          <circle cx="16" cy="43" r="1.6" fill="${p.spots}" />
+          <circle cx="21" cy="51" r="1.5" fill="${p.spots}" />
+          <circle cx="27" cy="18" r="1.2" fill="${p.spots}" opacity="0.8" />
+          <circle cx="24" cy="26" r="1.2" fill="${p.spots}" opacity="0.8" />
+
+          <!-- HINDWING IN PROFILE (underneath forewing, extending down & back) -->
+          <path d="M 42 63
+                   C 40 72, 34 84, 22 84
+                   C 13 83, 9 73, 14 62
+                   C 18 53, 30 56, 42 63 Z"
+                fill="url(#${id}-hindGrad)" />
+
+          <!-- Hindwing dark scalloped border -->
+          <path d="M 22 84
+                   C 13 83, 9 73, 14 62
+                   C 13 70, 16 78, 22 84 Z"
+                fill="${p.border}" opacity="0.88" />
+
+          <!-- Hindwing veins -->
+          <path d="M 39 65 C 32 72, 24 78, 17 76" stroke="${p.vein}" stroke-width="1" opacity="0.6" fill="none" />
+          <path d="M 36 63 C 28 66, 20 68, 14 65" stroke="${p.vein}" stroke-width="0.9" opacity="0.55" fill="none" />
+
+          <!-- Hindwing margin scallops & eye-spot -->
+          <circle cx="13" cy="67" r="1.5" fill="${p.spots}" />
+          <circle cx="15" cy="76" r="1.6" fill="${p.spots}" />
+          <circle cx="22" cy="80" r="1.6" fill="${p.spots}" />
+          <circle cx="24" cy="72" r="2.6" fill="${p.border}" opacity="0.8" />
+          <circle cx="24" cy="72" r="1.4" fill="${p.gradStart}" />
+          <circle cx="24" cy="72" r="0.6" fill="${p.spots}" />
+        </svg>
+      `;
+    }
+
+    function getSideBodySVG(p) {
+      return `
+        <!-- Side Profile Body SVG (facing RIGHT, perched legs below) -->
+        <svg viewBox="0 0 100 100" width="100%" height="100%" fill="none" style="display:block; overflow:visible;">
+          <!-- Antennae pointing forward-up from head -->
+          <path d="M 52 59 C 58 48, 66 36, 76 28" stroke="${p.body}" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <ellipse cx="76.5" cy="27.5" rx="1.6" ry="2.4" fill="${p.body}" transform="rotate(35 76.5 27.5)" />
+
+          <path d="M 51 60 C 56 50, 63 40, 72 33" stroke="${p.body}" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.75" />
+          <ellipse cx="72.5" cy="32.5" rx="1.4" ry="2.1" fill="${p.body}" transform="rotate(35 72.5 32.5)" opacity="0.75" />
+
+          <!-- Head (side profile) -->
+          <circle cx="51" cy="61" r="3.6" fill="${p.body}" />
+          <!-- Large Compound Eye with Specular Catchlight -->
+          <circle cx="51.8" cy="60.5" r="1.6" fill="#140904" />
+          <circle cx="52.3" cy="60" r="0.5" fill="#FFF" opacity="0.9" />
+
+          <!-- Thorax (slender dark midsection) -->
+          <ellipse cx="44" cy="63" rx="5" ry="3.8" fill="${p.body}" />
+          <ellipse cx="44" cy="62.5" rx="3.5" ry="2.2" fill="${p.gradEnd}" opacity="0.4" />
+
+          <!-- Abdomen (segmented tail curving down-left) -->
+          <path d="M 39 64 C 33 66, 24 70, 20 77 C 19 79, 21 80, 23 79 C 29 75, 36 70, 40 66 Z" fill="${p.body}" />
+          <!-- Abdomen segment rings -->
+          <line x1="37" y1="66" x2="38" y2="68" stroke="${p.spots}" stroke-width="0.8" opacity="0.4" />
+          <line x1="33" y1="68" x2="34" y2="71" stroke="${p.spots}" stroke-width="0.8" opacity="0.4" />
+          <line x1="29" y1="71" x2="30" y2="74" stroke="${p.spots}" stroke-width="0.8" opacity="0.4" />
+          <line x1="25" y1="74" x2="26" y2="77" stroke="${p.spots}" stroke-width="0.8" opacity="0.4" />
+
+          <!-- Perching Insect Legs (clinging onto frame line below) -->
+          <!-- Foreleg -->
+          <path d="M 48 65 L 53 74 L 56 84" stroke="${p.body}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <!-- Midleg -->
+          <path d="M 44 66 L 46 75 L 48 84" stroke="${p.body}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <!-- Hindleg -->
+          <path d="M 41 66 L 39 75 L 36 84" stroke="${p.body}" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8" />
+        </svg>
+      `;
+    }
+
+    const palette = {
+      gradStart: '#E28438',
+      gradMid: '#C25F18',
+      gradEnd: '#853706',
+      vein: '#2A1609',
+      border: '#1C0F06',
+      spots: '#FFF7EB',
+      body: '#22140B'
+    };
+
+    function renderButterfly(containerId, isFlight) {
+      const mode = isFlight ? 'flight-mode' : 'rest-mode';
+      const html = `
+        <div class="butterfly-side-root ${mode}">
+          <div class="bf-side-rig">
+            <div class="wing-side-far">
+              ${getSideWingSVG(palette, 'far_' + containerId)}
+            </div>
+            <div class="body-side">
+              ${getSideBodySVG(palette)}
+            </div>
+            <div class="wing-side-near">
+              ${getSideWingSVG(palette, 'near_' + containerId)}
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    renderButterfly('side-flight', true);
+    renderButterfly('side-rest', false);
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real 3D Butterfly Flight Test</title>
+  <style>
+    body {
+      margin: 0;
+      background: #FAF8F5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, sans-serif;
+      overflow: hidden;
+    }
+    h1 {
+      color: #795548;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .preview-box {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      background: rgba(200, 168, 130, 0.15);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(200, 168, 130, 0.3);
+      z-index: 10;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .card span {
+      font-size: 13px;
+      color: #8D6E63;
+      font-weight: 600;
+    }
+    .flight-img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 16px rgba(100, 60, 20, 0.18));
+    }
+    .flight-img.resting {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+    }
+    /* Flying demonstration */
+    .flight-stage {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .drifting-bf {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      animation: driftAcross 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      filter: drop-shadow(0 15px 20px rgba(80, 50, 20, 0.22));
+    }
+    @keyframes driftAcross {
+      0% {
+        transform: translate(10vw, 75vh) rotate(-15deg) scale(0.9);
+      }
+      25% {
+        transform: translate(30vw, 50vh) rotate(-5deg) scale(1);
+      }
+      50% {
+        transform: translate(50vw, 35vh) rotate(10deg) scale(1.05);
+      }
+      75% {
+        transform: translate(70vw, 45vh) rotate(-8deg) scale(0.95);
+      }
+      100% {
+        transform: translate(95vw, 20vh) rotate(-20deg) scale(0.85);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Real 3D Flapping Butterfly Test</h1>
+  <div class="preview-box">
+    <div class="card">
+      <span>3D Flapping in Flight (Loop)</span>
+      <img class="flight-img" src="/butterfly_flight_3d.webp" alt="3D Flight">
+    </div>
+    <div class="card">
+      <span>Resting on Edge (Upright Profile)</span>
+      <img class="flight-img resting" src="/butterfly_resting_side.png" alt="Resting Profile">
+    </div>
+    <div class="card">
+      <span>Scaled Flight (Natural 75px)</span>
+      <img style="width:75px;height:75px;object-fit:contain;" src="/butterfly_flight_3d.webp" alt="Natural size">
+    </div>
+  </div>
+
+  <div class="flight-stage">
+    <img class="drifting-bf" src="/butterfly_flight_3d.webp" alt="Drifting Butterfly">
+  </div>
+</body>
+</html>

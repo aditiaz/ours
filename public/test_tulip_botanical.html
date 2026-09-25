@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tulip Botanical & Leaf Test</title>
+  <style>
+    body {
+      background: #FAF8F5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      font-family: sans-serif;
+    }
+    .tulip-row {
+      display: flex;
+      gap: 30px;
+      align-items: flex-end;
+      background: rgba(255,255,255,0.7);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    .tulip-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Botanical Tulip Leaf & Color Study</h2>
+  <div class="tulip-row">
+    <!-- Tulip Blush -->
+    <div class="tulip-item">
+      <svg width="120" height="260" viewBox="0 0 120 260">
+        <defs>
+          <!-- Stem Gradient: Cylindrical shaded natural green -->
+          <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#41692E"/>
+            <stop offset="35%" stopColor="#5E8F43"/>
+            <stop offset="70%" stopColor="#4D7936"/>
+            <stop offset="100%" stopColor="#2F4F20"/>
+          </linearGradient>
+
+          <!-- Leaf 1 Left: Botanical 3D folded lanceolate leaf -->
+          <linearGradient id="leafLeftShade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#284A1C"/>
+            <stop offset="100%" stopColor="#3E6B2C"/>
+          </linearGradient>
+          <linearGradient id="leafLeftLight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#568A3F"/>
+            <stop offset="60%" stopColor="#72A654"/>
+            <stop offset="100%" stopColor="#4A7A34"/>
+          </linearGradient>
+
+          <!-- Leaf 2 Right: Curving graceful lanceolate leaf -->
+          <linearGradient id="leafRightLight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#4D7F36"/>
+            <stop offset="50%" stopColor="#6C9E50"/>
+            <stop offset="100%" stopColor="#5B8A40"/>
+          </linearGradient>
+          <linearGradient id="leafRightShade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#385F25"/>
+            <stop offset="100%" stopColor="#223E16"/>
+          </linearGradient>
+
+          <!-- Petals: Blush -->
+          <linearGradient id="pBackBlush" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#E26D7C"/>
+            <stop offset="100%" stopColor="#B33E50"/>
+          </linearGradient>
+          <linearGradient id="pLeftBlush" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#F59AA7"/>
+            <stop offset="60%" stopColor="#E87687"/>
+            <stop offset="100%" stopColor="#BD4356"/>
+          </linearGradient>
+          <linearGradient id="pRightBlush" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#EDA5B0"/>
+            <stop offset="60%" stopColor="#DF7384"/>
+            <stop offset="100%" stopColor="#B5394B"/>
+          </linearGradient>
+          <linearGradient id="pCenterBlush" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFE0E5"/>
+            <stop offset="35%" stopColor="#F796A4"/>
+            <stop offset="80%" stopColor="#D95368"/>
+            <stop offset="100%" stopColor="#AB2D41"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Stem -->
+        <path d="M60 85 Q58 160 60 255" stroke="url(#stemGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+        <!-- Left Leaf (Clasping at base, broad blade curving up & out) -->
+        <g id="leafLeft">
+          <!-- Outer/Sunlit facet -->
+          <path d="M60 240 C45 220, 20 180, 16 125 C14 100, 20 75, 26 65 C28 78, 36 100, 44 125 C52 150, 58 195, 60 215 Z" fill="url(#leafLeftLight)"/>
+          <!-- Inner/Shadow facet (giving 3D rolled/folded leaf depth) -->
+          <path d="M60 240 C58 200, 50 160, 44 125 C36 100, 28 78, 26 65 C32 85, 46 120, 55 160 C58 175, 60 215, 60 240 Z" fill="url(#leafLeftShade)"/>
+          <!-- Delicate leaf vein / midrib -->
+          <path d="M60 235 C52 190, 38 140, 26 65" stroke="#8DC26F" stroke-width="0.8" opacity="0.6" fill="none"/>
+        </g>
+
+        <!-- Right Leaf (Clasping slightly higher, arching gracefully right) -->
+        <g id="leafRight">
+          <!-- Outer/Sunlit facet -->
+          <path d="M60 220 C75 195, 102 165, 105 115 C107 90, 98 70, 92 60 C90 75, 82 98, 74 122 C66 148, 62 185, 60 205 Z" fill="url(#leafRightLight)"/>
+          <!-- Inner/Shadow facet -->
+          <path d="M60 220 C62 190, 68 155, 74 122 C82 98, 90 75, 92 60 C86 80, 74 115, 66 155 C62 175, 60 205, 60 220 Z" fill="url(#leafRightShade)"/>
+          <!-- Delicate leaf vein / midrib -->
+          <path d="M60 215 C68 175, 82 130, 92 60" stroke="#8DC26F" stroke-width="0.8" opacity="0.6" fill="none"/>
+        </g>
+
+        <!-- Calyx (Green base cupping the petals) -->
+        <path d="M53 85 C57 91, 63 91, 67 85 C65 89, 55 89, 53 85 Z" fill="#385F25"/>
+        <ellipse cx="60" cy="85" rx="5" ry="2.5" fill="#4B7735"/>
+
+        <!-- Flower Head (Blush) -->
+        <g transform="translate(60, 72)">
+          <!-- Back Petals -->
+          <path d="M0 -46 C-16 -36, -20 -10, 0 12 C20 -10, 16 -36, 0 -46 Z" fill="url(#pBackBlush)"/>
+          <!-- Left Petal -->
+          <path d="M0 12 C-18 10, -32 -12, -25 -36 C-20 -46, -7 -42, -2 -24 C-10 -6, -9 5, 0 12 Z" fill="url(#pLeftBlush)"/>
+          <!-- Right Petal -->
+          <path d="M0 12 C18 10, 32 -12, 25 -36 C20 -46, 7 -42, 2 -24 C10 -6, 9 5, 0 12 Z" fill="url(#pRightBlush)"/>
+          <!-- Center Foreground Petal (Dominant, elegant teardrop cup) -->
+          <path d="M0 14 C-16 12, -18 -14, -9 -40 C-3 -48, 3 -48, 9 -40 C18 -14, 16 12, 0 14 Z" fill="url(#pCenterBlush)"/>
+          <!-- Petal Highlight / Sheen -->
+          <path d="M0 -38 C-4 -20, -5 0, 0 10 C2 4, 3 -15, 0 -38 Z" fill="#FFF" opacity="0.25"/>
+        </g>
+      </svg>
+      <span>Blush Rose</span>
+    </div>
+  </div>
+</body>
+</html>

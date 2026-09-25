@@ -1,0 +1,1362 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #FAF8F5;
+  --text: #2B2118;
+  --text-secondary: #4A3A2C;
+  --text-muted: #736152;
+  --gold-accent: #8C5C28;
+  --gold-glow: #B87A32;
+  --gold-light: #F7E7CE;
+  --accent: #C8A882;
+  --accent-dark: #8C5C28;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: linear-gradient(180deg, #FDF9F3 0%, #F5EDE3 50%, #EDE4D8 100%);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, .logo { font-family: 'Playfair Display', Georgia, serif; }
+
+.landing-container {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════
+   ATMOSPHERIC SKY & CLOUDS
+   ═══════════════════════════════════ */
+
+.sky-glow {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 65vh;
+  background: radial-gradient(ellipse at 50% 65%, rgba(255, 228, 195, 0.5) 0%, rgba(250, 248, 245, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.golden-hour-beams {
+  position: fixed;
+  top: -120px;
+  left: -80px;
+  width: 120vw;
+  height: 120vh;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 230, 185, 0.4) 0%, rgba(255, 215, 155, 0.18) 35%, rgba(250, 248, 245, 0) 65%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.layer-clouds {
+  position: fixed;
+  top: 4vh; left: 0; right: 0;
+  height: 25vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  opacity: 0.35;
+  filter: blur(14px);
+  will-change: transform;
+  animation: cloudDrift linear infinite;
+}
+
+.cloud-1 { width: 340px; top: 10px; animation-duration: 105s; animation-delay: -10s; }
+.cloud-2 { width: 460px; top: 50px; animation-duration: 145s; animation-delay: -65s; }
+.cloud-3 { width: 280px; top: 25px; animation-duration: 115s; animation-delay: -35s; }
+
+@keyframes cloudDrift {
+  0%   { transform: translateX(-500px); }
+  100% { transform: translateX(115vw); }
+}
+
+/* ═══════════════════════════════════
+   PARALLAX LAYERS
+   ═══════════════════════════════════ */
+
+/* Layer 0: Hills — background landscape */
+.layer-hills {
+  position: fixed;
+  bottom: 0;
+  left: -30px; right: -30px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hills {
+  width: 100%;
+  height: 250px;
+  display: block;
+}
+
+/* Layer 1: Living Swaying Trees */
+.layer-trees {
+  position: fixed;
+  bottom: 0;
+  left: -30px; right: -30px;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tree-sway {
+  transform-origin: bottom center;
+  animation: treeBreeze 8s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes treeBreeze {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(1.4deg); }
+  100% { transform: rotate(-1deg); }
+}
+
+/* Layer 2: Lake — visible above hills, but kept small enough to sit in the valley */
+.layer-lake {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.lake-canvas-wrap {
+  width: 540px;
+  max-width: 40vw;
+  height: 110px;    /* compact — sits low in the valley between hills */
+  position: relative;
+  overflow: hidden;  /* clip the top edge so it doesn't breach hilltops */
+  mask-image: linear-gradient(to top, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 60%, transparent 100%);
+}
+
+.lake-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.lake-sun-beam {
+  animation: sunBeamGleam 7s ease-in-out infinite alternate;
+}
+
+@keyframes sunBeamGleam {
+  0%   { opacity: 0.65; }
+  100% { opacity: 0.95; }
+}
+
+.water-shimmer-crest {
+  will-change: transform, opacity;
+}
+
+.crest-1 {
+  animation: crestDriftRight 8s ease-in-out infinite alternate;
+}
+.crest-2 {
+  animation: crestDriftLeft 10s ease-in-out infinite alternate;
+}
+.crest-3 {
+  animation: crestDriftRight 12s ease-in-out infinite alternate;
+}
+.crest-4 {
+  animation: crestDriftLeft 9s ease-in-out infinite alternate;
+}
+.crest-5 {
+  animation: crestDriftRight 14s ease-in-out infinite alternate;
+}
+
+@keyframes crestDriftRight {
+  0%   { transform: translateX(-18px); opacity: 0.38; }
+  50%  { opacity: 0.88; }
+  100% { transform: translateX(20px);  opacity: 0.38; }
+}
+
+@keyframes crestDriftLeft {
+  0%   { transform: translateX(18px);  opacity: 0.32; }
+  50%  { opacity: 0.78; }
+  100% { transform: translateX(-20px); opacity: 0.32; }
+}
+
+.sun-glint {
+  will-change: opacity, transform;
+}
+.glint-1 { animation: glintPulse 4.2s ease-in-out infinite -1s;   }
+.glint-2 { animation: glintPulse 5.0s ease-in-out infinite -2.5s; }
+.glint-3 { animation: glintPulse 4.5s ease-in-out infinite -0.5s; }
+.glint-4 { animation: glintPulse 5.5s ease-in-out infinite -3s;   }
+.glint-5 { animation: glintPulse 4.8s ease-in-out infinite -1.8s; }
+.glint-6 { animation: glintPulse 3.9s ease-in-out infinite -0.8s; }
+.glint-7 { animation: glintPulse 5.2s ease-in-out infinite -3.6s; }
+.glint-8 { animation: glintPulse 4.6s ease-in-out infinite -2.1s; }
+
+@keyframes glintPulse {
+  0%, 100% { opacity: 0.15; transform: scale(0.65); }
+  50%      { opacity: 1;    transform: scale(1.45); }
+}
+
+/* Mist / pollen particles gently drifting */
+.mist-p {
+  will-change: transform, opacity;
+}
+.mp-1 { animation: mistDrift 14s ease-in-out infinite -2s; }
+.mp-2 { animation: mistDrift 17s ease-in-out infinite -7s; }
+.mp-3 { animation: mistDrift 12s ease-in-out infinite -4s; }
+.mp-4 { animation: mistDrift 19s ease-in-out infinite -11s; }
+
+@keyframes mistDrift {
+  0%   { transform: translate(0, 0);        opacity: 0.4; }
+  33%  { transform: translate(6px, -4px);   opacity: 0.6; }
+  66%  { transform: translate(-4px, 3px);   opacity: 0.45; }
+  100% { transform: translate(0, 0);        opacity: 0.4; }
+}
+
+/* ═══════════════════════════════════
+   SWAN COURTSHIP DANCE RITUAL (YouTube cvJN81HimWc)
+   9-second synchronized courtship dance:
+   - 0% - 24%: Heart formation with bill-to-bill touch & affectionate nuzzle (❤️)
+   - 28% - 46%: Synchronized graceful bowing down towards water
+   - 48% - 60%: Dipping heads & bills into the water surface
+   - 64% - 82%: Lifting up in unison, arching necks into the iconic heart silhouette
+   - 84% - 100%: Reconnecting bills, gentle head nuzzle
+   ═══════════════════════════════════ */
+
+.swan-heart-wrapper {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Left Swan Hull: Buoyant rocking and dipping heave */
+.swan-left-group {
+  transform-origin: 105px 125px;
+  animation: swanBodyCourtshipLeft 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+/* Right Swan Hull: Buoyant rocking and dipping heave */
+.swan-right-group {
+  transform-origin: 235px 125px;
+  animation: swanBodyCourtshipRight 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+@keyframes swanBodyCourtshipLeft {
+  0%, 24%  { transform: translateY(0) rotate(0deg); }
+  36%      { transform: translateY(-1.2px) rotate(1.8deg); }
+  50%, 58% { transform: translateY(2.2px) rotate(2.6deg); }
+  70%      { transform: translateY(-1.8px) rotate(-1.2deg); }
+  84%      { transform: translateY(0.4px) rotate(0.4deg); }
+  100%     { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes swanBodyCourtshipRight {
+  0%, 24%  { transform: translateY(0) rotate(0deg); }
+  36%      { transform: translateY(-1.2px) rotate(-1.8deg); }
+  50%, 58% { transform: translateY(2.2px) rotate(-2.6deg); }
+  70%      { transform: translateY(-1.8px) rotate(1.2deg); }
+  84%      { transform: translateY(0.4px) rotate(-0.4deg); }
+  100%     { transform: translateY(0) rotate(0deg); }
+}
+
+/* Swan Necks: The Courtship Dipping & Heart Formation Dance */
+.swan-neck-left {
+  transform-origin: 148px 115px;
+  animation: swanCourtshipNeckLeft 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+.swan-neck-right {
+  transform-origin: 192px 115px;
+  animation: swanCourtshipNeckRight 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+@keyframes swanCourtshipNeckLeft {
+  0%, 24% {
+    transform: rotate(0deg) translateY(0);
+  }
+  38% {
+    transform: rotate(18deg) translateY(4px);
+  }
+  50%, 58% {
+    transform: rotate(26deg) translateY(8.5px);
+  }
+  70% {
+    transform: rotate(11deg) translateY(3px);
+  }
+  84%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes swanCourtshipNeckRight {
+  0%, 24% {
+    transform: rotate(0deg) translateY(0);
+  }
+  38% {
+    transform: rotate(-18deg) translateY(4px);
+  }
+  50%, 58% {
+    transform: rotate(-26deg) translateY(8.5px);
+  }
+  70% {
+    transform: rotate(-11deg) translateY(3px);
+  }
+  84%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+/* Swan Heads: Dipping into water & Bill-to-Bill Nuzzle */
+.swan-head-left {
+  transform-origin: 164px 42px;
+  animation: swanCourtshipHeadLeft 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+.swan-head-right {
+  transform-origin: 176px 42px;
+  animation: swanCourtshipHeadRight 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+@keyframes swanCourtshipHeadLeft {
+  0%   { transform: rotate(0deg); }
+  10%  { transform: rotate(2.4deg) translateX(0.5px); }
+  18%  { transform: rotate(-1.5deg) translateX(-0.3px); }
+  24%  { transform: rotate(0deg); }
+  /* Dipping: Head tilts downward toward water */
+  50%, 58% { transform: rotate(-12deg) translateY(2px); }
+  /* Rising */
+  72%  { transform: rotate(-3deg); }
+  84%  { transform: rotate(2deg) translateX(0.4px); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes swanCourtshipHeadRight {
+  0%   { transform: rotate(0deg); }
+  10%  { transform: rotate(-2.4deg) translateX(-0.5px); }
+  18%  { transform: rotate(1.5deg) translateX(0.3px); }
+  24%  { transform: rotate(0deg); }
+  /* Dipping: Head tilts downward toward water */
+  50%, 58% { transform: rotate(12deg) translateY(2px); }
+  /* Rising */
+  72%  { transform: rotate(3deg); }
+  84%  { transform: rotate(-2deg) translateX(-0.4px); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Layer 3: Lush & Abundant Tulips Meadow */
+.layer-tulips {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 2.5vw 8px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.tulip-cluster-left,
+.tulip-cluster-right {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.tulip-cluster-mid-left,
+.tulip-cluster-mid-right {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  opacity: 0.9;
+}
+
+.tulip-wrapper {
+  display: inline-block;
+  transform-origin: bottom center;
+  animation: tulipBreeze 25s ease-in-out infinite;
+  filter: drop-shadow(0 6px 12px rgba(90, 60, 30, 0.12));
+  will-change: transform;
+}
+
+@keyframes tulipBreeze {
+  0%   { transform: rotate(-2deg); }
+  10%  { transform: rotate(2deg); }
+  20%  { transform: rotate(-1deg); }
+  30%  { transform: rotate(3deg); }
+  40%  { transform: rotate(0deg); }
+  50%  { transform: rotate(-2deg); }
+  60%  { transform: rotate(1deg); }
+  /* WIND BLOWS SOFTLY OVER 2.5 SECONDS (60% -> 70%) */
+  70%  { transform: rotate(-25deg); }
+  75%  { transform: rotate(-25deg); }
+  85%  { transform: rotate(-5deg); }
+  100% { transform: rotate(-2deg); }
+}
+
+.leaf-wind-gust {
+  animation: leafWindGust 25s ease-in-out infinite;
+}
+
+@keyframes leafWindGust {
+  0%, 60% { transform: translateX(0) rotate(0deg); opacity: 1; }
+  /* Softly drifts left and dissolves over 2.5s */
+  70% { transform: translateX(-50vw) rotate(-60deg); opacity: 0; }
+  71%, 85% { transform: translateX(10vw); opacity: 0; }
+  95%, 100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+}
+
+.stuck-leaf-gust {
+  animation: stuckLeafWindGust 25s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes stuckLeafWindGust {
+  0%, 60% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+  /* Softly blown off and dissolves over 2.5s */
+  70% { transform: translateX(-40vw) translateY(20vh) rotate(-90deg); opacity: 0; }
+  71%, 85% { transform: translateX(0) translateY(0); opacity: 0; }
+  95%, 100% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+}
+
+.butterfly-wind-gust {
+  position: absolute;
+  inset: 0;
+  animation: butterflyWindGust 25s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes butterflyWindGust {
+  0%, 60% { transform: translateX(0) translateY(0) rotate(0deg) scaleX(1); }
+  /* Softly blown left over 2.5s */
+  70% { transform: translateX(-150px) translateY(20px) rotate(-10deg) scaleX(1); }
+  75% { transform: translateX(-180px) translateY(10px) rotate(-5deg) scaleX(1); }
+  /* Wind stops, they flip around (scaleX(-1)) and fly back RIGHT */
+  76% { transform: translateX(-180px) translateY(10px) rotate(15deg) scaleX(-1); }
+  85% { transform: translateX(-90px) translateY(5px) rotate(10deg) scaleX(-1); }
+  99% { transform: translateX(0) translateY(0) rotate(0deg) scaleX(-1); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg) scaleX(1); }
+}
+
+/* Layer 4: Fireflies */
+.layer-fireflies {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.firefly {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+}
+
+.firefly-glow {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: glow 4s ease-in-out infinite;
+  box-shadow: 0 0 8px 2px rgba(200, 168, 130, 0.3);
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.6; transform: scale(1); }
+}
+
+.ff-1 { top: 20%; left: 15%; }
+.ff-1 .firefly-glow { animation-delay: 0s; animation-duration: 5s; }
+.ff-2 { top: 35%; left: 80%; }
+.ff-2 .firefly-glow { animation-delay: 1.5s; animation-duration: 6s; }
+.ff-3 { top: 50%; left: 25%; }
+.ff-3 .firefly-glow { animation-delay: 3s; animation-duration: 4.5s; }
+.ff-4 { top: 15%; left: 60%; }
+.ff-4 .firefly-glow { animation-delay: 0.5s; animation-duration: 5.5s; }
+.ff-5 { top: 65%; left: 45%; }
+.ff-5 .firefly-glow { animation-delay: 2s; animation-duration: 7s; }
+.ff-6 { top: 40%; left: 90%; }
+.ff-6 .firefly-glow { animation-delay: 4s; animation-duration: 4s; }
+.ff-7 { top: 25%; left: 40%; }
+.ff-7 .firefly-glow { animation-delay: 1s; animation-duration: 6.5s; }
+.ff-8 { top: 55%; left: 70%; }
+.ff-8 .firefly-glow { animation-delay: 2.5s; animation-duration: 5s; }
+
+/* ═══════════════════════════════════
+   LAYER 5: REALISTIC 3D FALLING LEAVES
+   Natural Elm/Birch, Willow, and Lobed leaves
+   with 3D tumbling physics and authentic botanical colors
+   ═══════════════════════════════════ */
+
+.leaves-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  overflow: hidden;
+  perspective: 900px;
+}
+
+.leaf-item {
+  position: absolute;
+  top: -80px;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: realisticLeafFall var(--leaf-dur, 35s) linear infinite;
+  animation-delay: var(--leaf-delay, 0s);
+}
+
+.stuck-leaf-wrapper {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  animation: stuckLeafDrop var(--stuck-dur, 18s) linear infinite;
+  animation-delay: var(--stuck-delay, 0s);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes stuckLeafDrop {
+  0% { transform: translateY(-40vh) translateX(-20px); opacity: 0; }
+  5% { opacity: 1; }
+  15% { transform: translateY(0) translateX(0); opacity: 1; } /* Lands */
+  85% { transform: translateY(0) translateX(0); opacity: 1; } /* Stays stuck for 70% of the time */
+  95% { opacity: 0; }
+  100% { transform: translateY(30vh) translateX(20px); opacity: 0; } /* Falls down */
+}
+
+.stuck-leaf-sway {
+  animation: stuckLeafSway 5s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+.stuck-leaf-sway svg {
+  display: block;
+  filter: drop-shadow(0 3px 4px rgba(80, 50, 20, 0.25));
+}
+
+@keyframes stuckLeafSway {
+  0% { transform: rotate(var(--base-rot)) rotateZ(-2deg); }
+  100% { transform: rotate(var(--base-rot)) rotateZ(3deg); }
+}
+
+.leaf-item svg {
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(80, 50, 20, 0.12));
+}
+
+.leaf-spin {
+  animation: leafSpin var(--leaf-dur, 35s) linear infinite;
+  animation-delay: var(--leaf-delay, 0s);
+  transform-origin: center center;
+}
+
+@keyframes leafSpin {
+  0% { transform: rotateZ(0deg) rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateZ(360deg) rotateX(180deg) rotateY(360deg); }
+}
+
+@keyframes realisticLeafFall {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.92;
+  }
+  18% {
+    transform: translate3d(20px, 20vh, 10px);
+  }
+  38% {
+    transform: translate3d(-15px, 42vh, -10px);
+    opacity: 0.88;
+  }
+  60% {
+    transform: translate3d(25px, 68vh, 15px);
+  }
+  82% {
+    transform: translate3d(-10px, 92vh, -5px);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(15px, 115vh, 10px);
+    opacity: 0;
+  }
+}
+
+/* Fallback: Forcefully hide any stray leaves beyond the 20th index (if HMR leaves them behind) */
+.leaf-item:nth-child(n+21) {
+  display: none !important;
+  animation: none !important;
+}
+
+/* Layer 6: Foreground Grass */
+.layer-grass {
+  position: fixed;
+  bottom: -10px;
+  left: -30px; right: -30px;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.grass-fg {
+  width: 100%;
+  display: block;
+}
+
+/* ═══════════════════════════════════
+   NAVBAR
+   ═══════════════════════════════════ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  z-index: 100;
+  animation: fadeIn 1s ease-out;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.logo svg { color: var(--accent-dark); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+/* ═══════════════════════════════════
+   PAGE CONTENT
+   ═══════════════════════════════════ */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.4rem 1.5rem 0.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.photo-frame {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 0.65rem;
+  animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.photo-frame::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border: 1px solid var(--accent);
+  border-radius: 50% 50% 4px 4px;
+  opacity: 0.3;
+}
+
+.photo-frame > .couple-photo {
+  width: 228px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 50% 50% 4px 4px;
+  display: block;
+  box-shadow: 0 16px 40px rgba(100, 75, 50, 0.22);
+}
+
+.real-bf-root img {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+}
+
+.content {
+  text-align: center;
+  max-width: 600px;
+}
+
+.tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+  color: #8C5C28;
+  margin-bottom: 0.35rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.2s forwards;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.95);
+}
+
+.title {
+  position: relative;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #2B2118;
+  letter-spacing: -0.2px;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.4s forwards;
+  text-shadow: 0 1px 16px rgba(255, 255, 255, 0.95);
+}
+
+.title-line-1,
+.title-line-2 {
+  display: block;
+}
+
+/* ═══════════════════════════════════
+   LETTER 'E' & ANCHORED PERCHED BUTTERFLY
+   Perches on the 'E' for ~11s, then takes off and flutters around
+   ═══════════════════════════════════ */
+
+.word-every {
+  display: inline-block;
+  position: relative;
+}
+
+.letter-e-anchor {
+  position: relative;
+  display: inline-block;
+}
+
+.letter-e {
+  position: relative;
+  display: inline-block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.06em;
+  color: #2B2118;
+  letter-spacing: -0.2px;
+}
+
+.e-butterfly-flyer {
+  position: absolute;
+  top: -18px;
+  left: -14px;
+  pointer-events: auto;
+  z-index: 60;
+  will-change: transform, opacity;
+  /* linear so the manually-crafted sinusoidal undulation isn't over-smoothed */
+  animation: bf-on-e-flight 25s linear infinite;
+}
+
+@keyframes bf-on-e-flight {
+  /* 0-14%: PERCHED ON LETTER 'E' */
+  0%   { transform: translate3d(0, 0, 0) rotate(-5deg); }
+  5%   { transform: translate3d(0, -2px, 0) rotate(-3deg); } 
+  10%  { transform: translate3d(0, 0, 0) rotate(-6deg); }
+  14%  { transform: translate3d(0, 0, 0) rotate(-5deg); }
+
+  /* 15-16%: Lifts off */
+  15%  { transform: translate3d(10px, -28px, 0) rotate(8deg); }
+  16%  { transform: translate3d(24px, -48px, 0) rotate(14deg); }
+
+  /* 17-30%: terbang kesana kemari */
+  17%  { transform: translate3d(25px, -40px, 0) rotate(-5deg); }
+  19%  { transform: translate3d(45px, -30px, 0) rotate(10deg); }
+  21%  { transform: translate3d(70px, -55px, 0) rotate(-8deg); }
+  24%  { transform: translate3d(40px, -70px, 0) rotate(-10deg); }
+  27%  { transform: translate3d(10px, -45px, 0) rotate(-5deg); }
+  29%  { transform: translate3d(15px, -25px, 0) rotate(8deg); } 
+  30%  { transform: translate3d(12px, -15px, 0) rotate(-5deg); }
+
+  /* 31-35%: Descends toward 'E' */
+  31%  { transform: translate3d(8px, -10px, 0) rotate(6deg); }
+  32%  { transform: translate3d(5px, -5px, 0) rotate(-4deg); }
+  33%  { transform: translate3d(2px, -2px, 0) rotate(-2deg); }
+  34%  { transform: translate3d(1px, -1px, 0) rotate(-5deg); }
+  35%  { transform: translate3d(0, 0, 0) rotate(-5deg); }
+
+  /* 36-100%: Perched, waits for wind at 60% */
+  45%  { transform: translate3d(0, -1.5px, 0) rotate(-4deg); }
+  55%  { transform: translate3d(0, 0, 0) rotate(-5deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(-5deg); }
+}
+
+.bf-on-e-orient {
+  position: absolute;
+  inset: 0;
+  animation: bf-on-e-orient-anim 25s linear infinite;
+}
+@keyframes bf-on-e-orient-anim {
+  0%, 23% { transform: scaleX(-1); }
+  24%, 28% { transform: scaleX(1); }
+  29%, 100% { transform: scaleX(-1); }
+}
+
+.title-em {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #8C5C28;
+  text-shadow: 0 0 16px rgba(245, 185, 95, 0.25), 0 2px 14px rgba(255, 255, 255, 0.95);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0 auto 0.55rem;
+  opacity: 0;
+  animation: scaleIn 0.8s ease 0.5s forwards;
+}
+
+.divider-line {
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(160, 105, 45, 0.65), transparent);
+}
+
+.divider-gem {
+  font-size: 0.65rem;
+  color: #9A5E1E;
+  transform: translateY(-0.5px);
+}
+
+.subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #35261A;
+  line-height: 1.52;
+  margin-bottom: 0.5rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.6s forwards;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.98), 0 0 24px rgba(255, 248, 235, 0.9);
+}
+
+.cta-row {
+  display: flex;
+  gap: 0.85rem;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.8s forwards;
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 50px;
+  font-size: 0.86rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: #3E342B;
+  color: #FFFDF9;
+  border: 1px solid rgba(210, 165, 105, 0.3);
+  box-shadow: 0 8px 24px rgba(50, 40, 30, 0.2);
+}
+
+.btn-primary:hover {
+  background: #2C231B;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(50, 40, 30, 0.28);
+}
+
+.btn-outline {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  color: #2B2118;
+  border: 1px solid rgba(140, 115, 85, 0.3);
+  box-shadow: 0 4px 16px rgba(90, 70, 50, 0.08);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #2B2118;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(45, 33, 23, 0.14);
+}
+
+.quote-box {
+  margin-top: 0.2rem;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote-container {
+  position: relative;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.quote-container.quote-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quote-container.quote-out {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.quote {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #55483C;
+  line-height: 1.55;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.95);
+}
+
+.quote-author {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-top: 0.35rem;
+  color: #8C5C28;
+}
+
+/* ═══════════════════════════════════
+   3D REALISTIC BUTTERFLY SYSTEM
+   ═══════════════════════════════════ */
+
+.real-bf-root {
+  position: relative;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.real-bf-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+.real-bf-layer.wings-flying {
+  opacity: 1;
+}
+
+.real-bf-layer.wings-resting {
+  display: none;
+}
+
+.bf-flying-3d {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ═══════════════════════════════════
+   EXACTLY 2 BUTTERFLIES: LEFT & RIGHT
+   Natural undulating flight -> approach arch -> perch/hinggap with wings flapping -> take off on loop
+   ═══════════════════════════════════ */
+
+.photo-butterfly {
+  position: absolute;
+  z-index: 25;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+/* ── LEFT BUTTERFLY (pb-left) ──
+   Operates on the left: flutters in from left, approaches frame, perches at mid-left curve, rests, takes off
+   Cycle: 18s loop
+*/
+.pb-left {
+  /* linear preserves the manual up-down sinusoidal undulation per keyframe */
+  animation: pb-left-flight 18s linear infinite;
+}
+
+@keyframes pb-left-flight {
+  /* 0-5%: Off-screen left, fades in */
+  0%   { left: -150px; top: 55%; transform: scaleX(-1) rotate(8deg); opacity: 0; }
+  5%   { left: -120px; top: 52%; transform: scaleX(-1) rotate(-10deg); opacity: 0.0; }
+  7%   { opacity: 0.98; }
+
+  /* 7-30%: Enters with real undulating flight - alternates up/down on each wingbeat */
+  10%  { left: -90px;  top: 38%; transform: scaleX(-1) rotate(14deg); }  /* up */
+  13%  { left: -62px;  top: 48%; transform: scaleX(-1) rotate(-12deg); } /* down */
+  16%  { left: -32px;  top: 30%; transform: scaleX(-1) rotate(16deg); }  /* up */
+  19%  { left: -8px;   top: 40%; transform: scaleX(-1) rotate(-10deg); } /* down */
+  22%  { left: 12px;   top: 22%; transform: scaleX(-1) rotate(14deg); }  /* up */
+  25%  { left: 4px;    top: 32%; transform: scaleX(-1) rotate(-8deg); }  /* down */
+  28%  { left: -8px;   top: 24%; transform: scaleX(-1) rotate(10deg); }  /* up */
+  30%  { left: -18px;  top: 34%; transform: scaleX(-1) rotate(-6deg); }  /* settling */
+
+  /* 32-58%: Lands on left frame curve - gentle body sway while perched */
+  32%  { left: -22px; top: 38%; transform: scaleX(-1) rotate(5deg); opacity: 0.98; }
+  40%  { left: -22px; top: 37%; transform: scaleX(-1) rotate(3deg); opacity: 0.98; } /* body sway */
+  50%  { left: -22px; top: 38%; transform: scaleX(-1) rotate(5deg); opacity: 0.98; }
+  58%  { left: -22px; top: 38%; transform: scaleX(-1) rotate(4deg); opacity: 0.98; }
+
+  /* 60-96%: Takes off and leaves with undulating flight to the left */
+  62%  { left: -5px;   top: 28%; transform: scaleX(-1) rotate(-12deg); opacity: 0.98; } /* up */
+  65%  { left: 18px;   top: 18%; transform: scaleX(-1) rotate(16deg); opacity: 0.96; } /* up-right */
+  68%  { left: 6px;    top: 28%; transform: scaleX(-1) rotate(-10deg); }  /* down */
+  71%  { left: -22px;  top: 18%; transform: scaleX(-1) rotate(14deg); }   /* up */
+  74%  { left: -48px;  top: 30%; transform: scaleX(-1) rotate(-12deg); }  /* down */
+  77%  { left: -78px;  top: 18%; transform: scaleX(-1) rotate(16deg); }   /* up */
+  80%  { left: -105px; top: 34%; transform: scaleX(-1) rotate(-12deg); opacity: 0.82; } /* down */
+  84%  { left: -128px; top: 22%; transform: scaleX(-1) rotate(14deg); opacity: 0.6; }  /* up */
+  88%  { left: -148px; top: 38%; transform: scaleX(-1) rotate(-10deg); opacity: 0.38; }/* down */
+  93%  { left: -158px; top: 50%; transform: scaleX(-1) rotate(8deg); opacity: 0.12; }
+  100% { left: -150px; top: 55%; transform: scaleX(-1) rotate(8deg); opacity: 0; }
+}
+
+/* ── RIGHT BUTTERFLY (pb-right) ──
+   Operates on the right: perches on right arch curve, rests, takes off into right air, flutters, returns
+   Cycle: 25s loop (offset timing so they don't sync mechanically with left butterfly, but syncs with wind gust)
+*/
+.pb-right {
+  /* linear preserves the manual up-down sinusoidal undulation per keyframe */
+  animation: pb-right-flight 25s linear infinite;
+}
+
+@keyframes pb-right-flight {
+  /* 0-19%: Perched on the girl's photo */
+  0%   { right: 55px; top: 35%; transform: rotate(-7deg); opacity: 0.98; }
+  10%  { right: 55px; top: 34%; transform: rotate(-5deg); opacity: 0.98; } 
+  19%  { right: 55px; top: 35%; transform: rotate(-7deg); opacity: 0.98; }
+
+  /* 20-49%: Takes off with undulating flight loops */
+  22%  { right: -4px;  top: 20%; transform: rotate(-14deg); opacity: 0.96; } 
+  24%  { right: 22px;  top: 10%; transform: rotate(12deg);  }  
+  26%  { right: 50px;  top: -5%; transform: rotate(-16deg); }  
+  28%  { right: 80px;  top: 8%;  transform: rotate(14deg);  }  
+  31%  { right: 105px; top: -8%; transform: rotate(-14deg); }  
+  33%  { right: 120px; top: 6%;  transform: rotate(16deg);  }  
+  35%  { right: 105px; top: -4%; transform: rotate(-12deg); }  
+  38%  { right: 82px;  top: 10%; transform: rotate(14deg);  }  
+  40%  { right: 58px;  top: 0%;  transform: rotate(-14deg); }  
+  42%  { right: 38px;  top: 12%; transform: rotate(12deg);  }  
+  45%  { right: 18px;  top: 2%;  transform: rotate(-12deg); }  
+  47%  { right: 4px;   top: 14%; transform: rotate(10deg);  }  
+  49%  { right: -8px;  top: 20%; transform: rotate(-8deg);  }  
+
+  /* 50-55%: Lands softly back on the girl's photo */
+  52%  { right: 14px; top: 26%; transform: rotate(-6deg); opacity: 0.98; }
+  55%  { right: 55px; top: 35%; transform: rotate(-7deg); opacity: 0.98; }
+
+  /* 56-100%: Resting on photo, gentle body sway */
+  80%  { right: 55px; top: 34%; transform: rotate(-5deg); opacity: 0.98; }
+  90%  { right: 55px; top: 35%; transform: rotate(-8deg); opacity: 0.98; }
+  100% { right: 55px; top: 35%; transform: rotate(-7deg); opacity: 0.98; }
+}
+
+/* ═══════════════════════════════════
+   BASIC ANIMATIONS & RESPONSIVE
+   ═══════════════════════════════════ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* ═══════════════════════════════════
+   SWAN REFLECTION SHIMMER
+   ═══════════════════════════════════ */
+
+.reflection-shimmer-band {
+  animation: reflShimmerSlide 5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes reflShimmerSlide {
+  0%   { transform: translateX(-100px); opacity: 0; }
+  25%  { opacity: 0.6; }
+  50%  { transform: translateX(100px); opacity: 0.5; }
+  75%  { opacity: 0.6; }
+  100% { transform: translateX(-100px); opacity: 0; }
+}
+
+/* ═══════════════════════════════════
+   SCROLL DOWN HINT
+   ═══════════════════════════════════ */
+
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 1.2rem;
+  opacity: 0;
+  animation: fadeIn 1.5s ease 1.5s forwards;
+  cursor: pointer;
+}
+
+.scroll-hint-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-accent);
+}
+
+.scroll-hint-arrow {
+  color: var(--gold-accent);
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+/* ═══════════════════════════════════
+   STORY TIMELINE SECTION
+   ═══════════════════════════════════ */
+
+.story-section {
+  position: relative;
+  z-index: 12;
+  background: linear-gradient(180deg, #F5EDE3 0%, #FAF8F5 15%, #FFFDF9 50%, #FAF8F5 85%, #F0E8DD 100%);
+  padding: 6rem 2rem 4rem;
+  min-height: 100vh;
+}
+
+.story-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.story-heading {
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.6rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: storyReveal 1s ease forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+.story-subheading {
+  text-align: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 4rem;
+  letter-spacing: 0.5px;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding: 1rem 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold-light) 15%, var(--accent) 50%, var(--gold-light) 85%, transparent);
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 0 2.5rem 3rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-left {
+  left: 0;
+  text-align: right;
+  padding-right: 3rem;
+}
+
+.timeline-right {
+  left: 50%;
+  text-align: left;
+  padding-left: 3rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold-accent);
+  border: 3px solid var(--gold-light);
+  box-shadow: 0 0 12px rgba(140, 92, 40, 0.35);
+  z-index: 2;
+}
+
+.timeline-left .timeline-dot {
+  right: -7px;
+}
+
+.timeline-right .timeline-dot {
+  left: -7px;
+}
+
+.timeline-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(200, 168, 130, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem 1.8rem;
+  box-shadow: 0 8px 32px rgba(90, 60, 30, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(90, 60, 30, 0.14);
+}
+
+.timeline-date {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold-accent);
+}
+
+.timeline-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0.4rem 0 0.6rem;
+}
+
+.timeline-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.story-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 4rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.story-footer svg {
+  color: var(--gold-accent);
+}
+
+@keyframes storyReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .photo-frame > .couple-photo { width: 280px; height: 320px; }
+  .title { font-size: 2.2rem; }
+  .cta-row { flex-direction: column; align-items: center; }
+  .layer-tulips { display: none; }
+
+  .timeline-line { left: 20px; }
+  .timeline-item { width: 100%; left: 0 !important; padding-left: 3rem !important; padding-right: 1rem !important; text-align: left !important; }
+  .timeline-dot { left: 13px !important; right: auto !important; }
+  .story-heading { font-size: 2rem; }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Real Side Butterflies Preview</title>
+  <style>
+    body {
+      background: #FAF8F5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+      gap: 40px;
+    }
+    .preview-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      min-width: 320px;
+    }
+    .perch-line {
+      width: 260px;
+      height: 4px;
+      background: #C8A882;
+      border-radius: 2px;
+      position: relative;
+      margin-top: -12px;
+    }
+
+    /* 3D Realistic Side Butterfly Rig */
+    .real-bf-root {
+      display: inline-block;
+      position: relative;
+      width: 90px;
+      height: 75px;
+      perspective: 700px;
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 4px 10px rgba(45, 25, 12, 0.22));
+    }
+
+    .real-bf-rig {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    /* Far wing (behind) */
+    .real-wing-far {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transform-origin: 65% 85%;
+      filter: brightness(0.82) saturate(0.9);
+      z-index: 1;
+      transform-style: preserve-3d;
+    }
+    .real-wing-far img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Near wing (front) */
+    .real-wing-near {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transform-origin: 65% 85%;
+      z-index: 2;
+      transform-style: preserve-3d;
+    }
+    .real-wing-near img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* In-Flight Side Flapping */
+    .flight-mode .real-bf-rig {
+      animation: sideFlightBob 0.22s ease-in-out infinite alternate;
+    }
+    .flight-mode .real-wing-near {
+      animation: sideFlapNear 0.22s ease-in-out infinite alternate;
+    }
+    .flight-mode .real-wing-far {
+      animation: sideFlapFar 0.22s ease-in-out infinite alternate;
+    }
+
+    @keyframes sideFlightBob {
+      0%   { transform: translateY(0px) rotate(-16deg); }
+      100% { transform: translateY(-5px) rotate(-8deg); }
+    }
+
+    @keyframes sideFlapNear {
+      0%   { transform: rotateY(0deg) rotateZ(0deg); }
+      100% { transform: rotateY(-54deg) rotateZ(12deg); }
+    }
+
+    @keyframes sideFlapFar {
+      0%   { transform: rotateY(0deg) rotateZ(0deg); }
+      100% { transform: rotateY(54deg) rotateZ(-12deg); }
+    }
+
+    /* Resting / Landed Basking */
+    .rest-mode .real-bf-rig {
+      animation: sideRestBreathe 3.5s ease-in-out infinite alternate;
+    }
+    .rest-mode .real-wing-near {
+      animation: sideBaskNear 3.5s ease-in-out infinite alternate;
+    }
+    .rest-mode .real-wing-far {
+      animation: sideBaskFar 3.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes sideRestBreathe {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-1.2px); }
+    }
+
+    @keyframes sideBaskNear {
+      0%   { transform: rotateY(-3deg) rotateZ(0deg); }
+      50%  { transform: rotateY(-26deg) rotateZ(4deg); }
+      100% { transform: rotateY(-5deg) rotateZ(1deg); }
+    }
+
+    @keyframes sideBaskFar {
+      0%   { transform: rotateY(3deg) rotateZ(0deg); }
+      50%  { transform: rotateY(26deg) rotateZ(-4deg); }
+      100% { transform: rotateY(5deg) rotateZ(-1deg); }
+    }
+  </style>
+</head>
+<body>
+  <h2>Real Photorealistic Side-View Butterflies</h2>
+  <div style="display: flex; gap: 40px;">
+    <div class="preview-card">
+      <h3>Amber Monarch (Resting on Edge)</h3>
+      <div class="real-bf-root rest-mode">
+        <div class="real-bf-rig">
+          <div class="real-wing-far"><img src="/butterfly-monarch-side.png" /></div>
+          <div class="real-wing-near"><img src="/butterfly-monarch-side.png" /></div>
+        </div>
+      </div>
+      <div class="perch-line"></div>
+    </div>
+
+    <div class="preview-card">
+      <h3>Golden Swallowtail (In Flight)</h3>
+      <div class="real-bf-root flight-mode">
+        <div class="real-bf-rig">
+          <div class="real-wing-far"><img src="/butterfly-swallowtail-side.png" /></div>
+          <div class="real-wing-near"><img src="/butterfly-swallowtail-side.png" /></div>
+        </div>
+      </div>
+      <div class="perch-line"></div>
+    </div>
+  </div>
+</body>
+</html>

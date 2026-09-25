@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Background, Falling Leaves & 2 Butterflies Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #FAF8F5;
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Ambient Horizon Glow */
+    .sky-glow {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 60vh;
+      background: radial-gradient(ellipse at 50% 65%, rgba(255, 238, 217, 0.6) 0%, rgba(250, 248, 245, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Drifting Soft Clouds */
+    .cloud-layer {
+      position: absolute;
+      top: 5vh; left: 0; right: 0; height: 30vh;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .cloud {
+      position: absolute;
+      fill: #FFF;
+      opacity: 0.45;
+      filter: blur(12px);
+      animation: cloudDrift linear infinite;
+    }
+    .cloud-1 { width: 320px; top: 20px; animation-duration: 90s; animation-delay: -10s; }
+    .cloud-2 { width: 450px; top: 70px; animation-duration: 130s; animation-delay: -50s; }
+    @keyframes cloudDrift {
+      0% { left: -500px; }
+      100% { left: 100vw; }
+    }
+
+    /* Hills */
+    .hills-container {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .hills-svg { width: 100%; height: 380px; display: block; }
+
+    /* Lake & Swans */
+    .lake-container {
+      position: absolute;
+      bottom: 60px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; max-width: 95vw;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .lake-svg { width: 100%; height: 160px; display: block; }
+
+    /* Swans gliding */
+    .swan-pair {
+      position: absolute;
+      bottom: 75px; left: 0; right: 0;
+      height: 60px;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .swan-item {
+      position: absolute;
+      animation: swanGlide 28s ease-in-out infinite alternate;
+    }
+    .swan-item-1 { left: 38%; animation-delay: 0s; }
+    .swan-item-2 { left: 56%; animation-delay: -8s; transform: scaleX(-1); }
+
+    @keyframes swanGlide {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(30px, -4px); }
+      50%  { transform: translate(60px, 2px); }
+      75%  { transform: translate(25px, -3px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* Trees with gentle sway */
+    .tree-group {
+      position: absolute;
+      bottom: 80px;
+      transform-origin: bottom center;
+      animation: treeBreeze 8s ease-in-out infinite alternate;
+      z-index: 3;
+    }
+    @keyframes treeBreeze {
+      0%   { transform: rotate(0deg); }
+      50%  { transform: rotate(1.2deg); }
+      100% { transform: rotate(-0.8deg); }
+    }
+
+    /* Real Botanical Falling Leaves */
+    .leaves-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+      overflow: hidden;
+      perspective: 800px;
+    }
+    .real-leaf {
+      position: absolute;
+      top: -80px;
+      opacity: 0;
+      animation: realisticLeafFall linear infinite;
+    }
+    @keyframes realisticLeafFall {
+      0% {
+        transform: translate3d(0, 0, 0) rotateZ(0deg) rotateX(0deg) rotateY(0deg);
+        opacity: 0;
+      }
+      5% { opacity: 0.9; }
+      20% {
+        transform: translate3d(40px, 20vh, 20px) rotateZ(45deg) rotateX(60deg) rotateY(25deg);
+      }
+      40% {
+        transform: translate3d(-35px, 42vh, -15px) rotateZ(110deg) rotateX(-50deg) rotateY(50deg);
+        opacity: 0.85;
+      }
+      65% {
+        transform: translate3d(50px, 68vh, 30px) rotateZ(210deg) rotateX(45deg) rotateY(-30deg);
+      }
+      85% {
+        transform: translate3d(-20px, 92vh, -10px) rotateZ(290deg) rotateX(-30deg) rotateY(40deg);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translate3d(25px, 115vh, 10px) rotateZ(360deg) rotateX(0deg) rotateY(0deg);
+        opacity: 0;
+      }
+    }
+
+    /* Test Photo Frame */
+    .frame-wrapper {
+      position: relative;
+      width: 380px;
+      height: 420px;
+      margin: 120px auto 40px;
+      z-index: 10;
+      border: 1px solid #C8A882;
+      border-radius: 50% 50% 4px 4px;
+      background: #EFE7DE;
+      box-shadow: 0 25px 50px rgba(139, 115, 85, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Butterflies */
+    .butterfly-box {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      z-index: 20;
+    }
+    .bf-left {
+      animation: bfLeftFlight 18s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    .bf-right {
+      animation: bfRightFlight 22s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes bfLeftFlight {
+      /* Flutters in from left meadow */
+      0%   { left: -140px; top: 55%; transform: scaleX(-1) rotate(12deg); opacity: 0; }
+      6%   { opacity: 0.98; }
+      16%  { left: -70px; top: 30%; transform: scaleX(-1) rotate(-16deg); }
+      24%  { left: 15px; top: 15%; transform: scaleX(-1) rotate(18deg); }
+      /* Lands softly on left frame border */
+      32%  { left: -22px; top: 38%; transform: scaleX(-1) rotate(6deg); opacity: 0.98; }
+      60%  { left: -22px; top: 38%; transform: scaleX(-1) rotate(6deg); opacity: 0.98; }
+      /* Takes off & flutters away */
+      68%  { left: 35px; top: 18%; transform: scaleX(-1) rotate(20deg); opacity: 0.95; }
+      82%  { left: -90px; top: 60%; transform: scaleX(-1) rotate(-14deg); opacity: 0.8; }
+      94%  { opacity: 0.4; }
+      100% { left: -140px; top: 55%; transform: scaleX(-1) rotate(12deg); opacity: 0; }
+    }
+
+    @keyframes bfRightFlight {
+      /* Starts perched on right frame border */
+      0%   { right: -22px; top: 32%; transform: rotate(-8deg); opacity: 0.98; }
+      26%  { right: -22px; top: 32%; transform: rotate(-8deg); opacity: 0.98; }
+      /* Takes off into air */
+      34%  { right: 40px; top: 12%; transform: rotate(-20deg); opacity: 0.95; }
+      48%  { right: 120px; top: -40px; transform: rotate(18deg); }
+      60%  { right: 80px; top: 80px; transform: rotate(-15deg); }
+      72%  { right: 25px; top: -10px; transform: rotate(12deg); }
+      /* Lands softly back on right frame border */
+      80%  { right: -22px; top: 32%; transform: rotate(-8deg); opacity: 0.98; }
+      100% { right: -22px; top: 32%; transform: rotate(-8deg); opacity: 0.98; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sky Glow & Clouds -->
+  <div class="sky-glow"></div>
+  <div class="cloud-layer">
+    <svg class="cloud cloud-1" viewBox="0 0 400 120">
+      <path d="M50 80 A40 40 0 0 1 120 40 A60 60 0 0 1 230 30 A50 50 0 0 1 320 50 A40 40 0 0 1 350 80 Z"/>
+    </svg>
+    <svg class="cloud cloud-2" viewBox="0 0 400 120">
+      <path d="M40 85 A45 45 0 0 1 130 45 A65 65 0 0 1 240 35 A55 55 0 0 1 330 55 A45 45 0 0 1 360 85 Z"/>
+    </svg>
+  </div>
+
+  <!-- Distant Hills with rich lush tone -->
+  <div class="hills-container">
+    <svg class="hills-svg" viewBox="0 0 1440 380" preserveAspectRatio="none">
+      <defs>
+        <!-- Far Hill Gradient: soft atmospheric lavender-warm ridge -->
+        <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#C9BDAF" stopOpacity="0.75"/>
+          <stop offset="100%" stopColor="#DDD3C5" stopOpacity="0.85"/>
+        </linearGradient>
+        <!-- Mid Hill Gradient: lush warm golden olive meadow ridge -->
+        <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#B3A988" stopOpacity="0.8"/>
+          <stop offset="100%" stopColor="#9C9572" stopOpacity="0.9"/>
+        </linearGradient>
+        <!-- Near Meadow Knoll -->
+        <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#C2BA9C" stopOpacity="0.6"/>
+          <stop offset="100%" stopColor="#D5CDAF" stopOpacity="0.5"/>
+        </linearGradient>
+      </defs>
+      <!-- Far Range -->
+      <path d="M0 380 V220 C180 180, 360 160, 540 195 C720 230, 900 140, 1100 170 C1250 190, 1370 215, 1440 210 V380 Z" fill="url(#hillFar)"/>
+      <!-- Mid Lush Hills -->
+      <path d="M0 380 V260 C200 235, 420 210, 640 245 C820 275, 980 205, 1200 235 C1340 255, 1400 260, 1440 258 V380 Z" fill="url(#hillMid)"/>
+      <!-- Near Meadow Contour -->
+      <path d="M0 380 V290 C220 270, 480 295, 750 270 C1020 245, 1280 280, 1440 275 V380 Z" fill="url(#hillNear)"/>
+    </svg>
+  </div>
+
+  <!-- Living Lake & Swans -->
+  <div class="lake-container">
+    <svg class="lake-svg" viewBox="0 0 900 180" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="lakeWater" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#A89B7E" stopOpacity="0.3"/>
+          <stop offset="40%" stopColor="#BFB296" stopOpacity="0.2"/>
+          <stop offset="100%" stopColor="#9C8D6F" stopOpacity="0.35"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="450" cy="90" rx="440" ry="75" fill="url(#lakeWater)"/>
+      <!-- Water Ripples -->
+      <ellipse cx="360" cy="85" rx="140" ry="8" fill="none" stroke="#FFF" stroke-width="1.2" opacity="0.3">
+        <animate attributeName="rx" values="120;160;120" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.35;0.1;0.35" dur="5s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="540" cy="95" rx="110" ry="6" fill="none" stroke="#FFF" stroke-width="1" opacity="0.25">
+        <animate attributeName="rx" values="95;135;95" dur="6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.3;0.08;0.3" dur="6s" repeatCount="indefinite"/>
+      </ellipse>
+    </svg>
+
+    <!-- Pair of Swans -->
+    <div class="swan-pair">
+      <div class="swan-item swan-item-1">
+        <svg width="48" height="36" viewBox="0 0 60 45" fill="none">
+          <ellipse cx="30" cy="32" rx="18" ry="10" fill="#FFFFFF" opacity="0.95" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+          <path d="M22 28 C20 20, 16 12, 20 6 C24 0, 27 6, 25 14 C23 20, 22 24, 22 28" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+          <circle cx="21" cy="6" r="3.2" fill="#FFFFFF"/>
+          <path d="M18 5 L13 6 L18 7.5 Z" fill="#D98A3C"/>
+          <ellipse cx="30" cy="40" rx="14" ry="2.5" fill="#5F5747" opacity="0.15"/>
+        </svg>
+      </div>
+      <div class="swan-item swan-item-2">
+        <svg width="44" height="34" viewBox="0 0 60 45" fill="none">
+          <ellipse cx="30" cy="32" rx="18" ry="10" fill="#FFFFFF" opacity="0.95" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+          <path d="M22 28 C20 20, 16 12, 20 6 C24 0, 27 6, 25 14 C23 20, 22 24, 22 28" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+          <circle cx="21" cy="6" r="3.2" fill="#FFFFFF"/>
+          <path d="M18 5 L13 6 L18 7.5 Z" fill="#D98A3C"/>
+          <ellipse cx="30" cy="40" rx="14" ry="2.5" fill="#5F5747" opacity="0.15"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Falling Leaves Canvas with Real Botanical Leaf Shapes & Colors -->
+  <div class="leaves-canvas">
+    <!-- Leaf 1: Real Elm / Beech Green Leaf -->
+    <div class="real-leaf" style="left: 12%; animation-duration: 17s; animation-delay: 0s;">
+      <svg width="24" height="36" viewBox="0 0 32 48" fill="none">
+        <!-- Leaf Petiole Stem -->
+        <path d="M16 42 Q16 47 18 48" stroke="#3D5F28" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- Leaf Blade (Natural green with subtle shading) -->
+        <path d="M16 2 C18 10, 28 18, 28 30 C28 39, 21 42, 16 42 C11 42, 4 39, 4 30 C4 18, 14 10, 16 2 Z" fill="#558E40"/>
+        <!-- Sunlit Facet Highlight -->
+        <path d="M16 2 C17 10, 24 18, 25 30 C25 37, 20 40, 16 42 Z" fill="#6EA852" opacity="0.75"/>
+        <!-- Central Vein -->
+        <path d="M16 4 V42" stroke="#375D26" stroke-width="1.2"/>
+        <!-- Lateral Veins -->
+        <path d="M16 14 Q21 12 25 16 M16 22 Q22 20 26 26 M16 30 Q21 28 24 35" stroke="#375D26" stroke-width="0.8" opacity="0.6"/>
+        <path d="M16 14 Q11 12 7 16 M16 22 Q10 20 6 26 M16 30 Q11 28 8 35" stroke="#375D26" stroke-width="0.8" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Leaf 2: Real Golden Birch Leaf -->
+    <div class="real-leaf" style="left: 35%; animation-duration: 21s; animation-delay: 3s;">
+      <svg width="26" height="34" viewBox="0 0 36 44" fill="none">
+        <path d="M18 38 Q18 43 19 44" stroke="#7A4E1B" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M18 2 C21 11, 32 18, 32 28 C32 36, 25 38, 18 38 C11 38, 4 36, 4 28 C4 18, 15 11, 18 2 Z" fill="#DF9F32"/>
+        <path d="M18 2 C20 11, 28 18, 28 28 C28 35, 23 37, 18 38 Z" fill="#F0B54A" opacity="0.8"/>
+        <path d="M18 4 V38" stroke="#9E6819" stroke-width="1.2"/>
+        <path d="M18 14 Q24 13 29 17 M18 22 Q25 21 30 26 M18 30 Q24 29 27 34" stroke="#9E6819" stroke-width="0.7" opacity="0.7"/>
+        <path d="M18 14 Q12 13 7 17 M18 22 Q11 21 6 26 M18 30 Q12 29 9 34" stroke="#9E6819" stroke-width="0.7" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- Leaf 3: Real Warm Amber Maple Leaf -->
+    <div class="real-leaf" style="left: 68%; animation-duration: 19s; animation-delay: 5s;">
+      <svg width="28" height="32" viewBox="0 0 40 44" fill="none">
+        <path d="M20 38 Q20 43 21 44" stroke="#6E2C1A" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- 3-Lobed Leaf -->
+        <path d="M20 2 C23 8, 29 10, 27 16 C33 16, 38 21, 35 27 C34 32, 27 35, 20 38 C13 35, 6 32, 5 27 C2 21, 7 16, 13 16 C11 10, 17 8, 20 2 Z" fill="#D66736"/>
+        <path d="M20 2 C22 8, 26 10, 25 16 C29 16, 34 20, 32 25 C31 30, 25 34, 20 38 Z" fill="#EB7B48" opacity="0.75"/>
+        <path d="M20 5 V38" stroke="#87351A" stroke-width="1.2"/>
+        <path d="M20 18 L31 22 M20 18 L9 22" stroke="#87351A" stroke-width="0.9" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- Leaf 4: Soft Spring Sage Green Leaf -->
+    <div class="real-leaf" style="left: 82%; animation-duration: 23s; animation-delay: 2s;">
+      <svg width="22" height="34" viewBox="0 0 28 44" fill="none">
+        <path d="M14 38 Q14 43 15 44" stroke="#2D4D20" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M14 2 C16 9, 25 16, 25 27 C25 35, 19 38, 14 38 C9 38, 3 35, 3 27 C3 16, 12 9, 14 2 Z" fill="#689E50"/>
+        <path d="M14 2 C15 9, 21 16, 21 27 C21 34, 17 37, 14 38 Z" fill="#81BA67" opacity="0.8"/>
+        <path d="M14 4 V38" stroke="#3E6B2C" stroke-width="1.1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Center Photo Frame with Exactly 2 Butterflies (Left & Right) -->
+  <div class="frame-wrapper">
+    <div style="font-size: 1.1rem; color: #8A6E4F; font-weight: 500;">
+      Center Couple Frame
+    </div>
+
+    <!-- Butterfly Left: Only on the left, flies in, lands, flies away -->
+    <div class="butterfly-box bf-left" style="background: rgba(220, 100, 50, 0.4); border-radius: 50%;">
+      <span style="font-size: 10px; color: #fff; font-weight: bold; position: absolute; top: 25px; left: 10px;">LEFT BF</span>
+    </div>
+
+    <!-- Butterfly Right: Only on the right, lands, takes off, flutters, lands -->
+    <div class="butterfly-box bf-right" style="background: rgba(50, 120, 220, 0.4); border-radius: 50%;">
+      <span style="font-size: 10px; color: #fff; font-weight: bold; position: absolute; top: 25px; left: 8px;">RIGHT BF</span>
+    </div>
+  </div>
+
+</body>
+</html>
